@@ -12,5 +12,3 @@ const noParens = (i, link) => {
   const parensRegex = /^((?!\().)*$/
   return parensRegex.test(link.children[0].data)
 }
-
-export { isMidi, noParens }

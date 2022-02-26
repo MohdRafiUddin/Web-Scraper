@@ -1,14 +1,90 @@
 const mongoose = require("mongoose");
 const cheerio = require("cheerio");
 const User = mongoose.model("users");
-const axios = require("axios");
 const request = require("request");
 const requireLogin = require("../middlewares/requireLogin");
 
-const Keys = require("../config/keys.js");
+/**
+ * This method is resposible for sanitizing the img source URL and returns
+ * the object containing image source and alt-name.
+ *
+ * Output:
+ *  {
+ *    src: 'https://dev.image.com/node.png',
+ *    text: The Node Image OR node
+ *  }
+ *
+ * @param {string} imgURL - The image source URL
+ * @param {string} imgAlt  - The image alt attribute
+ * @returns
+ */
+const sanitizeImgURL = (imgURL, imgAlt) => {
+  if (imgURL === null || imgURL === undefined || imgURL === "") {
+    return null;
+  }
+  return {
+    src: imgURL.split(/[?#]/)[0],
+    text: imgAlt || imgURL.match(/[\w-]+\.(jpg|png|txt|svg)/g),
+  };
+};
 
-// TESTING
-const vgmUrl = "https://www.vgmusic.com/music/console/nintendo/nes";
+const fetchMediaData = (res, existingUser, websiteURL) => {
+  const siteURL = new URL(websiteURL);
+  request(websiteURL, (error, response, html) => {
+    if (error || response.statusCode !== 200) {
+      res.send(error);
+    } else {
+      const responseData = responseHandler(html, siteURL);
+      updateUserData(res, existingUser, responseData);
+    }
+  });
+};
+
+const responseHandler = (html, siteURL) => {
+  const $ = cheerio.load(html);
+  const responseData = {
+    imagesURLs: [],
+    videoURLs: [],
+  };
+  $("img").each((index, image) => {
+    const imgSource = $(image).attr("src");
+    const imgAlt = $(image).attr("alt");
+    if (imgSource !== null && imgSource !== undefined) {
+      if (imgSource.startsWith(siteURL.protocol)) {
+        responseData.imagesURLs.push(sanitizeImgURL(imgSource, imgAlt));
+      } else {
+        if (imgSource.startsWith("//")) {
+          responseData.imagesURLs.push(
+            sanitizeImgURL(`${siteURL.origin}${imgSource.substring(1)}`, imgAlt)
+          );
+        } else {
+          responseData.imagesURLs.push(
+            sanitizeImgURL(`${siteURL.origin}${imgSource}`, imgAlt)
+          );
+        }
+      }
+    }
+  });
+  return responseData;
+};
+
+const updateUserData = (res, existingUser, responseData) => {
+  User.findOneAndUpdate(
+    { userId: existingUser.userId },
+    {
+      updatedOn: new Date(),
+      media_data: JSON.stringify(responseData),
+    },
+    { upsert: true },
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+};
 
 /**
  * This method is responsible for scraping requested web media (Images, Videos) URLs and
@@ -27,42 +103,7 @@ module.exports = (app) => {
         throw new Error("Invalid input data provided");
       }
       req.body.websiteURLs.forEach((websiteURL) => {
-        const siteURL = new URL(websiteURL);
-        request(websiteURL, (error, response, html) => {
-          if (error || response.statusCode !== 200) {
-            next(error);
-          }
-          const $ = cheerio.load(html);
-          const responseData = {
-            imagesURLs: [],
-            videoURLs: [],
-          };
-          $("img").each((index, image) => {
-            const imgSource = $(image).attr("src");
-            if (imgSource !== null && imgSource !== undefined) {
-              if (imgSource.startsWith(siteURL.protocol)) {
-                responseData.imagesURLs.push(imgSource);
-              } else {
-                responseData.imagesURLs.push(`${siteURL.origin}${imgSource}`);
-              }
-            }
-          });
-          User.findOneAndUpdate(
-            { userId: existingUser.userId },
-            {
-              updatedOn: new Date(),
-              media_data: JSON.stringify(responseData),
-            },
-            { upsert: true },
-            (err, result) => {
-              if (err) {
-                res.send(err);
-              } else {
-                res.send(result);
-              }
-            }
-          )
-        });
+        fetchMediaData(res, existingUser, websiteURL);
       });
     });
   });

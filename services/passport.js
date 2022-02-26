@@ -24,7 +24,7 @@ passport.use(
       proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
-      const userData = profile._json;
+      const userData = profile._json
       User.findOne({ userId: profile.id }).then((existingUser) => {
         if (existingUser) {
           // Already existing user, don't save in the database.

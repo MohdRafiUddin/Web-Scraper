@@ -8,16 +8,18 @@ const SubmitButtonWrapper = styled.span`
 `;
 
 const SearchBar = (props) => {
-    console.log(props)
   const [websiteURL, setWebsiteURL] = useState("");
-  const [errorText, setErrorText] = useState("");
 
   const onInputChange = (event) => setWebsiteURL(event.target.value);
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    props.createScraperMedia(websiteURL, props.auth.userId);
-    setWebsiteURL("");
+    props
+      .createScraperMedia(websiteURL, props.authentication.userId)
+      .then(() => {
+        props.fetchData();
+        setWebsiteURL("");
+      });
   };
 
   return (
@@ -39,6 +41,9 @@ const SearchBar = (props) => {
   );
 };
 
-const mapStateToProps = ({ data, auth }) => ({ data, auth });
+const mapStateToProps = ({ userData, authentication }) => ({
+  userData,
+  authentication,
+});
 
 export default connect(mapStateToProps, actions)(SearchBar);

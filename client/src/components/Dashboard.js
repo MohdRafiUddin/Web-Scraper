@@ -7,7 +7,7 @@ import SearchBar from "./SearchBar";
 import ImagesContent from "./ImagesContent";
 
 const DashboardContainer = styled.div`
-  margin: 10px 100px;
+  margin: 20px;
   overflow: auto;
 `;
 
@@ -33,6 +33,17 @@ const JumboTronTitle = styled.h1`
   line-height: 1.1;
 `;
 
+const NotFound = styled.h1`
+  font-size: 63px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin: 0.67em 0;
+  color: inherit;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+`;
+
 const JumboTronHeading = styled.p`
   margin-bottom: 15px;
   font-size: 21px;
@@ -40,12 +51,19 @@ const JumboTronHeading = styled.p`
   margin: 0 0 10px;
 `;
 
-const SearchBarContainer = styled.div``;
-
-const ImagesContainer = styled.div``;
+const ImagesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 class Dashboard extends Component {
   render() {
+    const { userData } = this.props;
+    const isImagesDataLoaded =
+      userData !== null &&
+      !_.isEmpty(userData) &&
+      userData.imagesURLs !== null &&
+      userData.imagesURLs.length > 0;
     return (
       <DashboardContainer>
         <JumboTronContainer>
@@ -57,17 +75,25 @@ class Dashboard extends Component {
             bunch of beautiful images that I didn't take (except for the first
             one!)
           </JumboTronHeading>
-        </JumboTronContainer>
-        <SearchBarContainer>
           <SearchBar />
-        </SearchBarContainer>
+        </JumboTronContainer>
         <ImagesContainer>
-          <ImagesContent />
+          <ImagesContent
+            userData={userData}
+            isImagesDataLoaded={isImagesDataLoaded}
+          />
+          {!isImagesDataLoaded && (
+            <NotFound>Not Found :( Try different URL</NotFound>
+          )}
         </ImagesContainer>
       </DashboardContainer>
     );
   }
 }
-const mapStateToProps = ({ data, auth }) => ({ data, auth });
+
+const mapStateToProps = ({ userData, authentication }) => ({
+  userData,
+  authentication,
+});
 
 export default connect(mapStateToProps, actions)(Dashboard);

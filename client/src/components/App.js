@@ -1,28 +1,28 @@
-import React, { Fragment, useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { connect } from "react-redux";
-import * as actions from "../actions";
+import React, { Fragment, useEffect } from 'react'
+import { BrowserRouter, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 
-import Header from "./Header";
-import Landing from "./Landing";
-import Dashboard from "./Dashboard";
+import Header from './Header'
+import Landing from './Landing'
+import Dashboard from './Dashboard'
 
 const App = (props) => {
-  const { fetchUser, fetchData } = props;
+  const { fetchUser, fetchData } = props
   useEffect(() => {
-    fetchUser();
-    fetchData();
-  }, []);
+    fetchUser()
+    fetchData()
+  }, [])
 
   return (
     <BrowserRouter>
-      <Fragment>
+      <React.StrictMode>
         <Header />
         <Route exact path="/" component={Landing} />
         <Route path="/dashboard" component={Dashboard} />
-      </Fragment>
+      </React.StrictMode>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default connect(null, actions)(App);
+export default connect(null, actions)(App)

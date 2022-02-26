@@ -1,12 +1,12 @@
-import { combineReducers } from "redux";
-import authReducer from "./authReducer";
-import dataReducer from "./dataReducer";
-import mediaReducer from "./mediaReducer";
+import { combineReducers } from 'redux'
+import authReducer from './authReducer'
+import dataReducer from './dataReducer'
+import mediaReducer from './mediaReducer'
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  data: dataReducer,
-  media: mediaReducer,
-});
+  authentication: authReducer,
+  userData: dataReducer,
+  userMedia: mediaReducer,
+})
 
-export default rootReducer;
+export default rootReducer
