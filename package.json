@@ -1,0 +1,40 @@
+{
+  "name": "media-scraper",
+  "version": "1.0.0",
+  "description": "The web media scraper to scrap image and video URLs for requested Web URL's",
+  "main": "index.js",
+  "engines": {
+    "node": "12.21.0",
+    "npm": "8.3.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "pretty": "prettier --print-width 80 --no-semi --single-quote --trailing-comma es5 --write *",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "author": "Mohammed Rafi Uddin",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.10",
+    "concurrently": "^7.0.0",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.3",
+    "mongoose": "^6.2.3",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^2.0.0",
+    "path": "^0.12.7",
+    "pg-promise": "^10.11.1",
+    "prettier": "^2.5.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4",
+    "prettyjson": "^1.2.1"
+  }
+}
