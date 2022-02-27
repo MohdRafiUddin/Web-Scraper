@@ -11,6 +11,8 @@
 - [Production mode](#production-mode)
 - [Quick Start](#quick-start)
 - [Docker](#docker)
+- [Docker Compose](#docker-compose)
+- [License](#license)
 
 ## Introduction
 
