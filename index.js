@@ -1,9 +1,15 @@
+// Express server
 const express = require("express");
+// Mongoose for MongoDB connection
 const { ServerApiVersion } = require("mongodb");
 const mongoose = require("mongoose");
+// BodyParser middleware
 const bodyParser = require("body-parser");
+// Cookie to maintain user session
 const cookieSession = require("cookie-session");
+// Passport for Google OAuth2.0
 const passport = require("passport");
+// Logger Middleware
 const morgan = require("morgan");
 
 // Loads up the user schema

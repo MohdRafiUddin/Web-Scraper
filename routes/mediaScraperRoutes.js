@@ -1,7 +1,12 @@
+// Mongoose functions to perform CRUDS on MongoDB
 const mongoose = require("mongoose");
+// Cheerio to parse and find images, videos source URLs
 const cheerio = require("cheerio");
+// The User schema
 const User = mongoose.model("users");
+// Native request library
 const request = require("request");
+// Authentication Middleware
 const requireLogin = require("../middlewares/requireLogin");
 
 /**
@@ -28,6 +33,13 @@ const sanitizeImgURL = (imgURL, imgAlt) => {
   };
 };
 
+/**
+ * This method is responsible for fetching raw html from the specified website URL
+ * and parse/handles the response data
+ * @param {function} res
+ * @param {User} existingUser
+ * @param {string} websiteURL
+ */
 const fetchMediaData = (res, existingUser, websiteURL) => {
   const siteURL = new URL(websiteURL);
   request(websiteURL, (error, response, html) => {
@@ -46,6 +58,11 @@ const fetchMediaData = (res, existingUser, websiteURL) => {
   });
 };
 
+/**
+ * This method is responsible for validating the response data returns boolean
+ * @param {object} responseData
+ * @returns
+ */
 const isValidateResponseData = (responseData) => {
   if (responseData === null || responseData === undefined) {
     return false;
@@ -64,6 +81,12 @@ const isValidateResponseData = (responseData) => {
   return false;
 };
 
+/**
+ * This method is responsible for handling the response data
+ * @param {string} html
+ * @param {string} siteURL
+ * @returns
+ */
 const responseHandler = (html, siteURL) => {
   const $ = cheerio.load(html);
   const responseData = {
@@ -92,6 +115,12 @@ const responseHandler = (html, siteURL) => {
   return responseData;
 };
 
+/**
+ * This method is responsible for updating the user data
+ * @param {object} res
+ * @param {User} existingUser
+ * @param {object} responseData
+ */
 const updateSucessUserData = (res, existingUser, responseData) => {
   User.findOneAndUpdate(
     { userId: existingUser.userId },
@@ -110,6 +139,12 @@ const updateSucessUserData = (res, existingUser, responseData) => {
   );
 };
 
+/**
+ * This method is responsible for updating the user data
+ * @param {object} res
+ * @param {User} existingUser
+ * @param {object} responseData
+ */
 const updateFailureUserData = (res, existingUser, responseData) => {
   User.findOneAndUpdate(
     { userId: existingUser.userId },

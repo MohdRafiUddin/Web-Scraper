@@ -1,34 +1,38 @@
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy
-const mongoose = require('mongoose')
-const User = mongoose.model('users')
-
-const Keys = require('../config/keys.js')
+// Passport for Google OAuth2.0
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+// Mongoose functions to perform CRUDS on MongoDB
+const mongoose = require("mongoose");
+// The User schema
+const User = mongoose.model("users");
+// Confedentails KEYS based on the environment
+const Keys = require("../config/keys.js");
 
 passport.serializeUser((user, done) => {
-  done(null, user.id)
-})
+  done(null, user.id);
+});
+
 passport.deserializeUser((id, done) => {
   User.findById(id).then((user) => {
-    done(null, user)
-  })
-})
+    done(null, user);
+  });
+});
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: Keys.GOOGLE_CLIENT_ID,
       clientSecret: Keys.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/auth/google/callback',
+      callbackURL: Keys.CALLBACK,
       scope: Keys.SCOPE,
       proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
-      const userData = profile._json
+      const userData = profile._json;
       User.findOne({ userId: profile.id }).then((existingUser) => {
         if (existingUser) {
           // Already existing user, don't save in the database.
-          done(null, existingUser)
+          done(null, existingUser);
         } else {
           // new user, save user id in the database.
           new User({
@@ -44,9 +48,9 @@ passport.use(
             },
           })
             .save()
-            .then((user) => done(null, user))
+            .then((user) => done(null, user));
         }
-      })
+      });
     }
   )
-)
+);
