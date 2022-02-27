@@ -1,20 +1,27 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import reduxThunk from 'redux-thunk'
+// React, Redux
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+// Redux-Thunk
+import reduxThunk from "redux-thunk";
 
-import 'materialize-css/dist/css/materialize.min.css'
-import './index.css'
+// Internal CSS file
+import "./index.css";
+// External CSS file
+import "materialize-css/dist/css/materialize.min.css";
 
-import App from './components/App'
-import reducers from './reducers'
+// Internal Components
+import App from "./components/App";
+// Root Reducer
+import reducers from "./reducers";
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk))
+// Creats the store by passing redux-thuk middleware
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);

@@ -35,9 +35,33 @@ const fetchMediaData = (res, existingUser, websiteURL) => {
       res.send(error);
     } else {
       const responseData = responseHandler(html, siteURL);
-      updateUserData(res, existingUser, responseData);
+      const isValidateData = isValidateResponseData(responseData);
+      if (isValidateData) {
+        updateSucessUserData(res, existingUser, responseData);
+      } else {
+        updateFailureUserData(res, existingUser, {});
+        res.status(404).send("Not found");
+      }
     }
   });
+};
+
+const isValidateResponseData = (responseData) => {
+  if (responseData === null || responseData === undefined) {
+    return false;
+  }
+  const isImagesAvialable =
+    responseData.imagesURLs !== null &&
+    responseData.imagesURLs !== undefined &&
+    responseData.imagesURLs.length > 0;
+  const isVideosAvialable =
+    responseData.videoURLs !== null &&
+    responseData.videoURLs !== undefined &&
+    responseData.videoURLs.length > 0;
+  if (isImagesAvialable || isVideosAvialable) {
+    return true;
+  }
+  return false;
 };
 
 const responseHandler = (html, siteURL) => {
@@ -68,7 +92,7 @@ const responseHandler = (html, siteURL) => {
   return responseData;
 };
 
-const updateUserData = (res, existingUser, responseData) => {
+const updateSucessUserData = (res, existingUser, responseData) => {
   User.findOneAndUpdate(
     { userId: existingUser.userId },
     {
@@ -82,6 +106,20 @@ const updateUserData = (res, existingUser, responseData) => {
       } else {
         res.send(result);
       }
+    }
+  );
+};
+
+const updateFailureUserData = (res, existingUser, responseData) => {
+  User.findOneAndUpdate(
+    { userId: existingUser.userId },
+    {
+      updatedOn: new Date(),
+      media_data: JSON.stringify(responseData),
+    },
+    { upsert: true },
+    (err) => {
+      if (err) res.send(err);
     }
   );
 };

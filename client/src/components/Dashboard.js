@@ -1,10 +1,22 @@
+// React, Redux
 import React, { Component } from "react";
 import { connect } from "react-redux";
+// External Utility library
 import _ from "lodash";
+// Actions
 import * as actions from "../actions";
+// External Components
 import styled from "styled-components";
+// Internal Components
 import SearchBar from "./SearchBar";
 import ImagesContent from "./ImagesContent";
+// Constants
+import {
+  DASHBOARD_HEADER_CONTENT,
+  DASHBOARD_HEADER_CONTENT_TEXT,
+  DASHBOARD_WELCOME_TEXT,
+  GALLERY_MEDIA_CLASSNAME,
+} from "../constants";
 
 const DashboardContainer = styled.div`
   margin: 20px;
@@ -20,6 +32,7 @@ const JumboTronContainer = styled.div`
   margin-bottom: 48px;
   background-image: linear-gradient(to right, #ffecd2, #fcb69f);
   color: hsl(209, 61%, 16%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 const JumboTronTitle = styled.h1`
@@ -33,7 +46,18 @@ const JumboTronTitle = styled.h1`
   line-height: 1.1;
 `;
 
-const NotFound = styled.h1`
+const NotFound = styled.h4`
+  font-size: 63px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin: 0.67em 0;
+  color: inherit;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+`;
+
+const Welcome = styled.h4`
   font-size: 63px;
   margin-top: 20px;
   margin-bottom: 10px;
@@ -56,7 +80,32 @@ const ImagesContainer = styled.div`
   justify-content: center;
 `;
 
+/**
+ * The Dashboard component will render the content when user visit /dashboard route
+ */
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      errorText: "",
+    };
+    this.updateLoadingState = this.updateLoadingState.bind(this);
+    this.updateErrorTextState = this.updateErrorTextState.bind(this);
+  }
+
+  updateLoadingState = () => {
+    this.setState((prevState) => {
+      loading: !prevState.loading;
+    });
+  };
+
+  updateErrorTextState = (errorText) => {
+    this.setState({
+      errorText: errorText,
+    });
+  };
+
   render() {
     const { userData } = this.props;
     const isImagesDataLoaded =
@@ -68,23 +117,25 @@ class Dashboard extends Component {
       <DashboardContainer>
         <JumboTronContainer>
           <JumboTronTitle>
-            <i className="fa fa-camera-retro"></i> Web Scraper Media Gallery{" "}
+            <i className={GALLERY_MEDIA_CLASSNAME}></i> {DASHBOARD_HEADER_CONTENT}{" "}
           </JumboTronTitle>
-          <JumboTronHeading>
-            Please provide sample website URL in the below input field to get a
-            bunch of beautiful images that I didn't take (except for the first
-            one!)
-          </JumboTronHeading>
-          <SearchBar />
+          <JumboTronHeading>{DASHBOARD_HEADER_CONTENT_TEXT}</JumboTronHeading>
+          <SearchBar
+            updateParentLoadigState={this.updateLoadingState}
+            updateParentErrorTextState={this.updateErrorTextState}
+          />
         </JumboTronContainer>
         <ImagesContainer>
           <ImagesContent
             userData={userData}
             isImagesDataLoaded={isImagesDataLoaded}
           />
-          {!isImagesDataLoaded && (
-            <NotFound>Not Found :( Try different URL</NotFound>
-          )}
+          {!isImagesDataLoaded &&
+            (this.state.errorText ? (
+              <NotFound>{this.state.errorText}</NotFound>
+            ) : (
+              <Welcome>{DASHBOARD_WELCOME_TEXT}</Welcome>
+            ))}
         </ImagesContainer>
       </DashboardContainer>
     );

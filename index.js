@@ -47,7 +47,9 @@ app.use(passport.session());
 
 // 1. Auth Routes - Handles all the authentication related APIs.
 require("./routes/authRoutes")(app);
-// 2. Media Scraper - Handles all the media scraper related APIs.
+// 2. User Routes - Handles all the users related APIs.
+require("./routes/userRoutes")(app);
+// 3. Media Scraper - Handles all the media scraper related APIs.
 require("./routes/mediaScraperRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {

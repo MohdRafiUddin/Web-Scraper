@@ -1,18 +1,27 @@
-import React, { Fragment, useEffect } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import * as actions from '../actions'
+// React, Redux
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+// React Router
+import { BrowserRouter, Route } from "react-router-dom";
+// Actions
+import * as actions from "../actions";
+// Internal Components
+import Header from "./Header";
+import Landing from "./Landing";
+import Dashboard from "./Dashboard";
 
-import Header from './Header'
-import Landing from './Landing'
-import Dashboard from './Dashboard'
-
+/**
+ * App is the main entry component which is resposible for rendering main
+ * App component and loading initial user & user data
+ * @param {object} props
+ * @returns
+ */
 const App = (props) => {
-  const { fetchUser, fetchData } = props
+  const { fetchUser, fetchData } = props;
   useEffect(() => {
-    fetchUser()
-    fetchData()
-  }, [])
+    fetchUser();
+    fetchData();
+  }, []);
 
   return (
     <BrowserRouter>
@@ -22,7 +31,7 @@ const App = (props) => {
         <Route path="/dashboard" component={Dashboard} />
       </React.StrictMode>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default connect(null, actions)(App)
+export default connect(null, actions)(App);

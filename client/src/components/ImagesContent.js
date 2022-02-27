@@ -1,9 +1,27 @@
+// React, Redux
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+// Actions
 import * as actions from "../actions";
+// External Utility library
 import _ from "lodash";
+// External Components
 import styled from "styled-components";
+// Internal Utility library
 import paginate from "../utils/paginate";
+// Constants
+import {
+  EMPTY_STRING,
+  FORM_CONTROL_CLASSNAME,
+  IMAGE_CONTENT_SEARCH_FIELD,
+  IMAGE_THUMBNAIL_CLASSNAME,
+  NEXT,
+  PREVIOUS,
+  SEARCH,
+  SEARCH_INPUT_FIELD_ID,
+  THUMBNAIL_CLASSNAME,
+  UPPER_SEARCH,
+} from "../constants";
 
 const MainContainerWrapper = styled.div`
   display: flex;
@@ -14,6 +32,25 @@ const MainContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 20px;
+`;
+
+const SearchFormContainer = styled.div`
+  display: flex;
+  margin: 5px 20px 30px 20px;
+  width: 25%;
+  align-self: flex-end;
+`;
+
+const SearchImages = styled.input`
+  font-size: 24px;
+  padding: 10px;
+  margin: 10px;
+  background: grey;
+  border: none;
+  border-radius: 3px;
+  ::placeholder {
+    color: grey;
+  }
 `;
 
 const ImageText = styled.span`
@@ -104,12 +141,15 @@ const PaginationButton = styled.button`
 const ImagesContent = (props) => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
+  const [searchText, setSearchText] = useState(EMPTY_STRING);
   const { userData, isImagesDataLoaded } = props;
   const paginatedData = paginate(userData.imagesURLs);
 
   useEffect(() => {
     setImages(paginatedData[page]);
   }, [page, isImagesDataLoaded, userData]);
+
+  const onInputChange = (event) => setSearchText(event.target.value);
 
   const handlePage = (index) => setPage(index);
 
@@ -129,10 +169,24 @@ const ImagesContent = (props) => {
     }
   };
 
+  const filterImages = () => {
+    if (searchText) {
+      return _.uniq(
+        images.filter(({ text }) =>
+          _.includes(_.lowerCase(text), _.lowerCase(searchText))
+        )
+      );
+    }
+    return _.uniq(images);
+  };
+
   const renderImages = (imagesURLs) =>
     imagesURLs.map((imagesURLObject) => (
-      <ImagesConatiner key={imagesURLObject.src} className="col-lg-4 col-sm-6">
-        <ThumbnailConatiner className="thumbnail">
+      <ImagesConatiner
+        key={imagesURLObject.src}
+        className={IMAGE_THUMBNAIL_CLASSNAME}
+      >
+        <ThumbnailConatiner className={THUMBNAIL_CLASSNAME}>
           <ImageText>{imagesURLObject.text}</ImageText>
           <Image src={imagesURLObject.src} alt={imagesURLObject.text} />
         </ThumbnailConatiner>
@@ -140,29 +194,36 @@ const ImagesContent = (props) => {
     ));
   return (
     <MainContainerWrapper>
-      <MainContainer>{renderImages(_.uniq(images))}</MainContainer>
+      {isImagesDataLoaded ? (
+        <SearchFormContainer>
+          <SearchImages
+            type={SEARCH}
+            id={SEARCH_INPUT_FIELD_ID}
+            className={FORM_CONTROL_CLASSNAME}
+            placeholder={IMAGE_CONTENT_SEARCH_FIELD}
+            onChange={onInputChange}
+            aria-label={UPPER_SEARCH}
+          />
+        </SearchFormContainer>
+      ) : null}
+      <MainContainer>{renderImages(filterImages())}</MainContainer>
       <ButtonContainer>
         {isImagesDataLoaded ? (
-          <PaginateButton onClick={() => prevPage()}>"Previous"</PaginateButton>
+          <PaginateButton onClick={() => prevPage()}>{PREVIOUS}</PaginateButton>
         ) : null}
         {!isImagesDataLoaded
           ? null
-          : paginatedData.map((item, index) => {
-              return (
-                <PaginationButton
-                  key={index}
-                  isActive={index === page}
-                  className={`page-btn ${index === page ? "active-btn" : null}`}
-                  onClick={() => {
-                    handlePage(index);
-                  }}
-                >
-                  {index + 1}
-                </PaginationButton>
-              );
-            })}
+          : paginatedData.map((item, index) => (
+              <PaginationButton
+                key={index}
+                isActive={index === page}
+                onClick={() => handlePage(index)}
+              >
+                {index + 1}
+              </PaginationButton>
+            ))}
         {isImagesDataLoaded ? (
-          <PaginateButton onClick={() => nextPage()}>"Next"</PaginateButton>
+          <PaginateButton onClick={() => nextPage()}>{NEXT}</PaginateButton>
         ) : null}
       </ButtonContainer>
     </MainContainerWrapper>

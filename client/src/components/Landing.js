@@ -1,16 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
+// React
+import React from "react";
+// External Components
+import styled from "styled-components";
+// Constants
+import { HOME_PAGE_LOGO_LINK } from "../constants";
 
 const MainContainer = styled.div`
   flex: 1 1 auto;
-  background-image: url(${'https://editor.analyticsvidhya.com/uploads/39297Web-Scraping1..png'});
+  background-image: url(${HOME_PAGE_LOGO_LINK});
   background-size: cover;
-`
+`;
 
-const Landing = () => (
-  <MainContainer>
-    {/* <a href="/dashboard">Go to dashboard</a> */}
-  </MainContainer>
-)
+const Landing = () => <MainContainer />;
 
-export default Landing
+export default Landing;

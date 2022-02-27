@@ -1,3 +1,9 @@
+/**
+ * This util method is responsible for restructuring the images array into
+ * specified chunks of arrays for ease of pagination
+ * @param {array} images 
+ * @returns 
+ */
 const paginate = (images) => {
   if (images === null || images === undefined || images.length === 0) {
     return [];
