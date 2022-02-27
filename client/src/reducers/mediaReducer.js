@@ -1,4 +1,3 @@
-import _ from "lodash";
 import {
   CREATE_MEDIA_SCRAPER,
   CREATE_MEDIA_SCRAPER_ERROR,

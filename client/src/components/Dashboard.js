@@ -110,6 +110,7 @@ class Dashboard extends Component {
     const { userData } = this.props;
     const isImagesDataLoaded =
       userData !== null &&
+      userData !== undefined &&
       !_.isEmpty(userData) &&
       userData.imagesURLs !== null &&
       userData.imagesURLs.length > 0;

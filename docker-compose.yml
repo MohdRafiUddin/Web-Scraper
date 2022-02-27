@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  server:
+    image: media-scraper-server
+    restart: always
+    environment:
+      - NODE_ENV=development
+    build:
+      context: .
+      target: production
+      dockerfile: Dockerfile
+    container_name: media-scraper-node-server
+    command: /usr/src/node_modules/.bin/nodemon server.js
+    volumes:
+      - /usr/src/node_modules
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: media-scraper-client
+    container_name: media-scraper-react-client
+    command: npm start
+    volumes:
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+  node_modules:
+  web-root:
+    driver: local
