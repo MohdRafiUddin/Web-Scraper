@@ -93,11 +93,15 @@ class Header extends Component {
         return <Loader />;
       case false:
         return (
-          <LoginButton href={GOOGLE_AUTH_LOGIN}>{LOGIN_GOOGLE}</LoginButton>
+          <LoginButton id="login-google" href={GOOGLE_AUTH_LOGIN}>
+            {LOGIN_GOOGLE}
+          </LoginButton>
         );
       default:
         return (
-          <LoginButton href={GOOGLE_AUTH_LOGOUT}>{LOGOUT_GOOGLE}</LoginButton>
+          <LoginButton id="logout-google" href={GOOGLE_AUTH_LOGOUT}>
+            {LOGOUT_GOOGLE}
+          </LoginButton>
         );
     }
   }

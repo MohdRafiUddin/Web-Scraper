@@ -10,7 +10,7 @@ const cookieSession = require("cookie-session");
 // Passport for Google OAuth2.0
 const passport = require("passport");
 // Logger Middleware
-const morgan = require("morgan");
+const httpLogger = require('./middlewares/httpLogger');
 
 // Loads up the user schema
 require("./models/users");
@@ -32,8 +32,8 @@ mongoose.connect(keys.MONGOOSE_URI, {
 // Starts up the express server
 app = express();
 
-// 1. Morgon middleware for debuging and logging
-app.use(morgan("tiny"));
+// 1. HTTP logger middleware for debuging and logging
+app.use(httpLogger);
 // 2. BodyParser middleware will parse incoming request bodies in a middleware before your
 // handlers, available under the req.body property
 app.use(bodyParser.json({ type: "*/*" }));

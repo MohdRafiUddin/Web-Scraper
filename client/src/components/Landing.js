@@ -36,9 +36,12 @@ const LandingHeading = styled.p`
 const Landing = () => (
   <MainContainer>
     <LandingTitle>
-      <i className={GALLERY_MEDIA_CLASSNAME}></i> {LANDING_HEADER_CONTENT}{" "}
+      <i id="landing-title" className={GALLERY_MEDIA_CLASSNAME}></i>{" "}
+      {LANDING_HEADER_CONTENT}{" "}
     </LandingTitle>
-    <LandingHeading>{LANDING_HEADER_CONTENT_TEXT}</LandingHeading>
+    <LandingHeading id="landing-heading">
+      {LANDING_HEADER_CONTENT_TEXT}
+    </LandingHeading>
   </MainContainer>
 );
 
