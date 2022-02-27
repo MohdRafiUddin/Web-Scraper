@@ -26,11 +26,14 @@ import {
 const MainContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  ${({ isActive }) =>
+    isActive &&
+    `
+    width: 100%;
+  `}
 `;
 
 const MainContainer = styled.div`
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 20px;
 `;
 
@@ -102,6 +105,11 @@ const ButtonContainer = styled.div`
   @media screen and (min-width: 775px) {
     margin: 0 auto;
   }
+  ${({ isActive }) =>
+    !isActive &&
+    `
+    display: none;
+  `}
 `;
 
 const PaginateButton = styled.button`
@@ -169,16 +177,13 @@ const ImagesContent = (props) => {
     }
   };
 
-  const filterImages = () => {
-    if (searchText) {
-      return _.uniq(
+  const filterImages = searchText
+    ? _.uniq(
         images.filter(({ text }) =>
           _.includes(_.lowerCase(text), _.lowerCase(searchText))
         )
-      );
-    }
-    return _.uniq(images);
-  };
+      )
+    : _.uniq(images);
 
   const renderImages = (imagesURLs) =>
     imagesURLs.map((imagesURLObject) => (
@@ -193,7 +198,7 @@ const ImagesContent = (props) => {
       </ImagesConatiner>
     ));
   return (
-    <MainContainerWrapper>
+    <MainContainerWrapper isActive={isImagesDataLoaded}>
       {isImagesDataLoaded ? (
         <SearchFormContainer>
           <SearchImages
@@ -206,8 +211,8 @@ const ImagesContent = (props) => {
           />
         </SearchFormContainer>
       ) : null}
-      <MainContainer>{renderImages(filterImages())}</MainContainer>
-      <ButtonContainer>
+      <MainContainer>{renderImages(filterImages)}</MainContainer>
+      <ButtonContainer isActive={filterImages && filterImages.length > 0}>
         {isImagesDataLoaded ? (
           <PaginateButton onClick={() => prevPage()}>{PREVIOUS}</PaginateButton>
         ) : null}
