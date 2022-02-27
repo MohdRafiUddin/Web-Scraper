@@ -5,6 +5,17 @@ import _ from "lodash";
 import styled from "styled-components";
 import paginate from "../utils/paginate";
 
+const MainContainerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const MainContainer = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+`;
+
 const ImageText = styled.span`
   margin-bottom: 15px;
   font-size: 21px;
@@ -47,6 +58,49 @@ const Image = styled.img`
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  @media screen and (min-width: 775px) {
+    margin: 0 auto;
+  }
+`;
+
+const PaginateButton = styled.button`
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s linear;
+  background: transparent;
+  border-color: transparent;
+  font-weight: bold;
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  color: rgb(100, 100, 100);
+  cursor: pointer;
+  &:hover {
+    background-color: #fcb69f;
+  }
+`;
+
+const PaginationButton = styled.button`
+  width: 2rem;
+  height: 2rem;
+  background: #c48d7b;
+  border-color: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0.5rem;
+  transition: all 0.3s linear;
+  ${(props) =>
+    props.isActive && {
+      background: "#c0775f",
+      color: "white",
+    }}
+`;
+
 const ImagesContent = (props) => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
@@ -60,7 +114,7 @@ const ImagesContent = (props) => {
   const handlePage = (index) => setPage(index);
 
   const nextPage = () => {
-    if (page === userData.length - 1) {
+    if (page === paginatedData.length - 1) {
       setPage(0);
     } else {
       setPage(page + 1);
@@ -69,7 +123,7 @@ const ImagesContent = (props) => {
 
   const prevPage = () => {
     if (page === 0) {
-      setPage(userData.length - 1);
+      setPage(paginatedData.length - 1);
     } else {
       setPage(page - 1);
     }
@@ -84,7 +138,35 @@ const ImagesContent = (props) => {
         </ThumbnailConatiner>
       </ImagesConatiner>
     ));
-  return <div className="row">{renderImages(_.uniq(images))}</div>;
+  return (
+    <MainContainerWrapper>
+      <MainContainer>{renderImages(_.uniq(images))}</MainContainer>
+      <ButtonContainer>
+        {isImagesDataLoaded ? (
+          <PaginateButton onClick={() => prevPage()}>"Previous"</PaginateButton>
+        ) : null}
+        {!isImagesDataLoaded
+          ? null
+          : paginatedData.map((item, index) => {
+              return (
+                <PaginationButton
+                  key={index}
+                  isActive={index === page}
+                  className={`page-btn ${index === page ? "active-btn" : null}`}
+                  onClick={() => {
+                    handlePage(index);
+                  }}
+                >
+                  {index + 1}
+                </PaginationButton>
+              );
+            })}
+        {isImagesDataLoaded ? (
+          <PaginateButton onClick={() => nextPage()}>"Next"</PaginateButton>
+        ) : null}
+      </ButtonContainer>
+    </MainContainerWrapper>
+  );
 };
 
 export default connect(null, actions)(ImagesContent);

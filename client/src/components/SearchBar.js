@@ -26,7 +26,7 @@ const SearchBar = (props) => {
     <form onSubmit={onFormSubmit} className="input-group">
       <input
         type="url"
-        placeholder="Input the website URL (http://www.example.com) to fetch the website media (Images, Videos) etc"
+        placeholder="Input the website URL (http://www.example.com) to fetch the website media (GIFs, Images, Videos) etc"
         className="form-control"
         value={websiteURL}
         onChange={onInputChange}

@@ -18,8 +18,8 @@ const JumboTronContainer = styled.div`
   padding-bottom: 24px;
   border-radius: 6px;
   margin-bottom: 48px;
-  color: #2c3e50;
-  background: #ecf0f1;
+  background-image: linear-gradient(to right, #ffecd2, #fcb69f);
+  color: hsl(209, 61%, 16%);
 `;
 
 const JumboTronTitle = styled.h1`

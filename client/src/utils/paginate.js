@@ -2,7 +2,7 @@ const paginate = (images) => {
   if (images === null || images === undefined || images.length === 0) {
     return [];
   }
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
   const pages = Math.ceil(images.length / itemsPerPage);
 
   const newImages = Array.from({ length: pages }, (_, index) => {
