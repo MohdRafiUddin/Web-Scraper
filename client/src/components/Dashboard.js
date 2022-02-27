@@ -46,6 +46,13 @@ const JumboTronTitle = styled.h1`
   line-height: 1.1;
 `;
 
+const JumboTronHeading = styled.p`
+  margin-bottom: 15px;
+  font-size: 21px;
+  font-weight: 200;
+  margin: 0 0 10px;
+`;
+
 const NotFound = styled.h4`
   font-size: 63px;
   margin-top: 20px;
@@ -66,13 +73,6 @@ const Welcome = styled.h4`
   font-family: inherit;
   font-weight: 500;
   line-height: 1.1;
-`;
-
-const JumboTronHeading = styled.p`
-  margin-bottom: 15px;
-  font-size: 21px;
-  font-weight: 200;
-  margin: 0 0 10px;
 `;
 
 const ImagesContainer = styled.div`

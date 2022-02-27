@@ -14,6 +14,8 @@ import {
   PLAIN_SLASH,
   GOOGLE_AUTH_LOGIN,
   GOOGLE_AUTH_LOGOUT,
+  GO_TO_DASHBOARD,
+  DASHBOARD_LINK,
 } from "../constants";
 
 const HeaderContainer = styled.nav`
@@ -44,6 +46,13 @@ const Logo = styled.img`
 `;
 
 const LoginWrapper = styled.div`
+  display: flex;
+  list-style-type: none;
+  margin-right: 20px;
+  flex-direction: row;
+`;
+
+const DashboardWrapper = styled.div`
   list-style-type: none;
   margin-right: 20px;
 `;
@@ -75,9 +84,11 @@ const LoginButton = styled.a`
   }
 `;
 
+const DashboardButton = styled(LoginButton)``;
+
 class Header extends Component {
-  renderContent() {
-    switch (this.props.authentication) {
+  renderContent(authentication) {
+    switch (authentication) {
       case null:
         return <Loader />;
       case false:
@@ -91,6 +102,7 @@ class Header extends Component {
     }
   }
   render() {
+    const { authentication } = this.props;
     return (
       <HeaderContainer>
         <NavWrapper>
@@ -99,7 +111,16 @@ class Header extends Component {
               <Logo src={LOGO_LINK} alt={LOGO} />
             </Link>
           </NavLink>
-          <LoginWrapper>{this.renderContent()}</LoginWrapper>
+          <LoginWrapper>
+            {authentication && (
+              <DashboardWrapper>
+                <DashboardButton href={DASHBOARD_LINK}>
+                  {GO_TO_DASHBOARD}
+                </DashboardButton>
+              </DashboardWrapper>
+            )}
+            {this.renderContent(authentication)}
+          </LoginWrapper>
         </NavWrapper>
       </HeaderContainer>
     );

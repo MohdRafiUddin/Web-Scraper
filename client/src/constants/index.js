@@ -9,11 +9,14 @@ export const DASHBOARD_HEADER_CONTENT_TEXT =
   "Please provide sample website URL in the below input field to get a bunch of beautiful images that I didn't take (except for the first one!)";
 export const DASHBOARD_WELCOME_TEXT = "Welcome back :)";
 export const SEARCH_BAR_ERROR_TEXT = "Not Found :( Try different URL";
+export const LANDING_HEADER_CONTENT = "Web Scraping";
+export const LANDING_HEADER_CONTENT_TEXT = "A Web Scraper allows you to retrieve public web data easily";
 
 // Text
 export const EMPTY_STRING = "";
 export const LOGO = "logo";
 export const LOGOUT_GOOGLE = "Logout";
+export const GO_TO_DASHBOARD = "Go To Dashboard";
 export const LOGIN_GOOGLE = "Login With Google";
 export const SEARCH = "search";
 export const UPPER_SEARCH = "Search";
@@ -32,13 +35,14 @@ export const SEARCH_BAR_INPUT_FIELD =
   "Input the website URL (http://www.example.com) to fetch the website media (GIFs, Images, Videos) etc";
 
 // Links
+export const DASHBOARD_LINK = "/dashboard";
 export const GOOGLE_AUTH_LOGIN = "/auth/google";
 export const GOOGLE_AUTH_LOGOUT = "/api/v1/logout";
 export const PLAIN_SLASH = "/";
 export const LOGO_LINK =
   "https://uploads-ssl.webflow.com/607d1e57c684c2576cfb89b1/607d3eb6b2641482643d788f_momos-logo.svg";
 export const HOME_PAGE_LOGO_LINK =
-  "https://editor.analyticsvidhya.com/uploads/39297Web-Scraping1..png";
+  "https://intuitivedigital.com/static/d8d993ba8c2bf5ed80cf299eb0e19f68/a41d1/Web-development.jpg";
 
 // CSS ClassNames
 export const GALLERY_MEDIA_CLASSNAME = "fa fa-camera-retro";
