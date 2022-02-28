@@ -14,11 +14,11 @@
 - [Docker Compose](#docker-compose)
 - [License](#license)
 
-## Introduction
+## 1. Introduction
 
 This is a simple full stack [React](https://reactjs.org/) application with a [Node.js](https://nodejs.org/en/) and [Express](https://expressjs.com/) backend. Client side code is written in React JS and the backend API is written using Express JS.
 
-## Features
+## 2. Features
 
 - Support for Google OAuth2.0 Authentication.
 - Input any website URL to search and scrape website media like Images, GIFs, Videos, etc.
@@ -26,7 +26,7 @@ This is a simple full stack [React](https://reactjs.org/) application with a [No
 - Pagination support on the UI to easliy navigate media gallary.
 - Search and filter the media data on the UI
 
-## Technologies
+## 3. Technologies
 
 Media Scraper uses a number of open source projects to work properly:
 
@@ -38,11 +38,11 @@ Media Scraper uses a number of open source projects to work properly:
 - [MongoDB Atlas](https://www.mongodb.com/) - Simplify Your Ops and Focus on Development. Reduce Admin Tasks With MongoDB Atlas.
 - [Docker](https://www.docker.com/) - Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
 
-### Development mode
+## 4. Development mode
 
 In the development mode, we will have 2 servers running. The front end code will be served by the [webpack dev server](https://webpack.js.org/configuration/dev-server/) which helps with hot and live reloading. The server side Express code will be served by a node server using [nodemon](https://nodemon.io/) which helps in automatically restarting the server whenever server side code changes.
 
-> Note: For development environment, You need to specify config/dev.js creds file with your own personal credentails
+> Note: 1. For development environment, You need to specify config/dev.js creds file with your own personal credentails
 
 ```bash
 // Development environments Keys
@@ -56,12 +56,22 @@ module.exports = {
 };
 
 ```
+> Note: 2. For development environment, while running docker-compose up, if you ended up see below error then the issue could be due to create-react-app version mismatch. You can find more details (here, proxying-api-requests)[https://create-react-app.dev/docs/proxying-api-requests-in-development/]
 
-### Production mode
+```bash
+Proxy error: Could not proxy request /api/v1/current_user/data from localhost:3000 to http://localhost:5000
+```
+#### Recommendation:
+1. Delete node_modules, package-lock.json and try restarting the docker-compose after installing node_modules.
+2. Try without docker-compose like `npm run dev`
+3. Repeat step 1 & 2
 
-In the production mode, we will have only 1 server running. All the client side code will be bundled into static files using webpack and it will be served by the Node.js/Express application.
 
-## Quick Start
+## 5. Production mode
+
+In the production mode, we will have only 1 server running. All the client side code will be bundled into static files using webpack and it will be served by the Node.js/Express application. The entire application is already been deployed to heroku and all the creds have been configured already. Visit this site for live production application: https://web-media-scraper.herokuapp.com/
+
+## 6. Quick Start
 
 ```bash
 # Clone the repository
@@ -83,7 +93,7 @@ yarn build (or npm run build)
 yarn start (or npm run start)
 ```
 
-## Docker
+## 7. Docker
 
 Media scraper is very easy to install and deploy in a Docker container.
 
@@ -115,7 +125,7 @@ your preferred browser.
 127.0.0.1:3000
 ```
 
-## Docker Compose
+## 8. Docker Compose
 
 Media scraper is very easy to install and deploy in a Docker container using docker compose.
 
@@ -127,6 +137,6 @@ docker-compose up // Spin up the docker container
 docker-compose down // Spin down the docker container
 ```
 
-## License
+## 9. License
 
 ISC
