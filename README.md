@@ -45,14 +45,16 @@ In the development mode, we will have 2 servers running. The front end code will
 > Note: 1. For development environment, You need to specify config/dev.js creds file with your own personal credentails
 
 ```bash
+config/dev.js
+
 // Development environments Keys
 module.exports = {
-  GOOGLE_CLIENT_ID: "XXXXXX",
-  GOOGLE_CLIENT_SECRET: "XXXXXX",
-  MONGOOSE_URI: "XXXXXX",
-  COOKIEKEY: "XXXXXXXXX",
-  SCOPE: ["profile", "email"],
-  CALLBACK: "/auth/google/callback",
+  GOOGLE_CLIENT_ID: "XXXXXX", // Create a sample google project and generate clientId and ClientSecret.
+  GOOGLE_CLIENT_SECRET: "XXXXXX", // Make sure to enable Google+ API from library.
+  MONGOOSE_URI: "XXXXXX", // Create a sample MongoDB cluster either from mLab OR MongoDB atlas and generate remote URI.
+  COOKIEKEY: "XXXXXXXXX", || Specify any random string like 'bfqefe3fg9fp984gfq9742g7g7f9v39vfeCEF8PGH8Bgu' :)
+  SCOPE: ["profile", "email"], // This works in local but you need to specify right form of scopes from https://developers.google.com/identity/protocols/oauth2/scopes
+  CALLBACK: "/auth/google/callback", // Update this as per your sample google project OR use the same callback in the google project.
 };
 
 ```
