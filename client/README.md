@@ -1,3 +1,16 @@
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#momos-assignment)
+
+# Media Scraper Fronted UI
+
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=A+Simple+Web+Application+for+Scraping;Images+GIFs+Videos+URLs)](https://git.io/typing-svg)
+
+<img width="1337" alt="Screenshot 2022-02-28 at 8 09 22 AM" src="https://user-images.githubusercontent.com/35064158/155924921-8850eae3-b200-4901-9485-4defabc5e988.png">
+
+<img width="1208" alt="Screenshot 2022-02-28 at 8 24 58 AM" src="https://user-images.githubusercontent.com/35064158/155924929-a57af3a8-ecce-4bcb-91f4-fbd449cd2dd0.png">
+
+<img width="1206" alt="Screenshot 2022-02-28 at 8 25 23 AM" src="https://user-images.githubusercontent.com/35064158/155924935-533f2896-96b9-4051-a2a6-959ccf7853b4.png">
+
+
 # Getting Started with Media Scraper Client
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
