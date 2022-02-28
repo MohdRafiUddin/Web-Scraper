@@ -8,15 +8,15 @@
 https://user-images.githubusercontent.com/35064158/155927479-ab60e31b-7ddc-444d-9534-5c72246131b0.mp4
 
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Development mode](#development-mode)
-- [Production mode](#production-mode)
-- [Quick Start](#quick-start)
-- [Docker](#docker)
-- [Docker Compose](#docker-compose)
-- [License](#license)
+- [Introduction](#1-introduction)
+- [Features](#2-features)
+- [Technologies](#3-technologies)
+- [Development mode](#4-development-mode)
+- [Production mode](#5-production-mode)
+- [Quick Start](#6-quick-start)
+- [Docker](#7-docker)
+- [Docker Compose](#8-docker-compose)
+- [License](#9-license)
 
 ## 1. Introduction
 
