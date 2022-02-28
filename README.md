@@ -4,6 +4,10 @@
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com/?lines=A+Simple+Web+Application+for+Scraping;Images+GIFs+Videos+URLs)](https://git.io/typing-svg)
 
+
+https://user-images.githubusercontent.com/35064158/155927479-ab60e31b-7ddc-444d-9534-5c72246131b0.mp4
+
+
 - [Introduction](#introduction)
 - [Features](#features)
 - [Technologies](#technologies)
