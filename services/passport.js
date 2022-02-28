@@ -28,6 +28,7 @@ passport.use(
       proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
+      // TODO: User google access, refresh creds to store scraper media in Google Drive
       const userData = profile._json;
       User.findOne({ userId: profile.id }).then((existingUser) => {
         if (existingUser) {
@@ -42,10 +43,6 @@ passport.use(
             createdOn: new Date(),
             updatedOn: new Date(),
             media_data: {},
-            token: {
-              accessToken,
-              refreshToken,
-            },
           })
             .save()
             .then((user) => done(null, user));

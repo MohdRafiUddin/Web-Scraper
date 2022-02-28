@@ -71,11 +71,7 @@ const isValidateResponseData = (responseData) => {
     responseData.imagesURLs !== null &&
     responseData.imagesURLs !== undefined &&
     responseData.imagesURLs.length > 0;
-  const isVideosAvialable =
-    responseData.videoURLs !== null &&
-    responseData.videoURLs !== undefined &&
-    responseData.videoURLs.length > 0;
-  if (isImagesAvialable || isVideosAvialable) {
+  if (isImagesAvialable) {
     return true;
   }
   return false;
@@ -91,7 +87,6 @@ const responseHandler = (html, siteURL) => {
   const $ = cheerio.load(html);
   const responseData = {
     imagesURLs: [],
-    videoURLs: [],
   };
   $("img").each((index, image) => {
     const imgSource = $(image).attr("src");

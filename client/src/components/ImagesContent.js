@@ -186,9 +186,9 @@ const ImagesContent = (props) => {
     : _.uniq(images);
 
   const renderImages = (imagesURLs) =>
-    imagesURLs.map((imagesURLObject) => (
+    imagesURLs.map((imagesURLObject, index) => (
       <ImagesConatiner
-        key={imagesURLObject.src}
+        key={imagesURLObject.src + imagesURLObject.text + index}
         className={IMAGE_THUMBNAIL_CLASSNAME}
       >
         <ThumbnailConatiner className={THUMBNAIL_CLASSNAME}>
